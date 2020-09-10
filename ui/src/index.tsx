@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './components/App/App';
+import { CategoryStore } from './store/category';
+import { Hub } from './api';
+import { Provider } from 'mobx-react';
 import * as serviceWorker from './serviceWorker';
 import { Hub } from './api';
 import { KindStore } from './store/kind';
@@ -25,10 +28,13 @@ setInterval(function () {
   console.log(store.list);
 }, 6000);
 
+const api = new Hub();
+export const Store = CategoryStore.create({}, { api });
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider>
+    <App store={Store} />,
+  </Provider>,
   document.getElementById('root')
 );
 
