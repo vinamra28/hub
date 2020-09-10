@@ -7,9 +7,9 @@ import { CategoryStore } from '../../store/category';
 import { KindStore } from '../../store/kind';
 import { CatalogStore } from '../../store/catalog';
 import { ResourceStore } from '../../store/resources';
-import CategoryFilter from '../CategoryFilter/CategoryFilter';
 import KindFilter from '../KindFilter/KindFilter';
 import CatalogFilter from '../CatalogFilter/CatalogFilter';
+import CategoryFilter from '../CategoryFilter/CategoryFilter';
 
 const TESTDATA_DIR = `src/store/testdata`;
 const api = new FakeHub(TESTDATA_DIR);

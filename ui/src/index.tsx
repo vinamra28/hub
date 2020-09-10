@@ -26,6 +26,9 @@ const store = ResourceStore.create(
 //   console.log(store.list);
 // }, 6000);
 
+const api = new Hub();
+export const Store = CategoryStore.create({}, { api });
+
 ReactDOM.render(
   <Provider>
     <App store={store} />,
