@@ -9,7 +9,7 @@ declare global {
 }
 
 window.config = window.config || {
-  API_URL: 'no API_URL  set'
+  API_URL: 'https://api-tekton-hub-staging.apps.openshift-web.p0s5.p1.openshiftapps.com'
 };
 
 export const API_URL = window.config.API_URL;
