@@ -104,13 +104,7 @@ export const ResourceStore = types
         self.err = err.toString();
       }
       self.setLoading(false);
-    }),
-    clearAll() {
-      self.kindStore.clear();
-      self.catalogStore.clear();
-      self.categoryStore.clear();
-      self.setSearchInput('');
-    }
+    })
   }))
 
   .views((self) => ({
