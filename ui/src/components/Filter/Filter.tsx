@@ -15,7 +15,7 @@ interface Filterable {
 }
 
 interface Store {
-  items: Filterable[];
+  list: Filterable[];
   clear(): void;
 }
 
@@ -24,11 +24,21 @@ interface FilterList {
   header: string;
 }
 
+/**
+ * To convert the first letter of the input word to Upper Case
+ * @param str {String}
+ */
+function toTitleCase(str: String) {
+  return str.replace(/\w\S*/g, function (txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+}
+
 const checkboxes = (items: Filterable[]) =>
   items.map((c: Filterable) => (
     <Checkbox
       key={c.id}
-      label={c.name}
+      label={toTitleCase(c.name)}
       isChecked={c.selected}
       onChange={() => c.toggle()}
       aria-label="controlled checkbox"
@@ -56,7 +66,7 @@ const Filter: React.FC<FilterList> = ({ store, header }) => {
 
       <Flex>
         <FlexItem>
-          <div>{checkboxes(store.items)}</div>
+          <div>{checkboxes(store.list)}</div>
         </FlexItem>
       </Flex>
     </div>

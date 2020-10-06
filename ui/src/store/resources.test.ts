@@ -116,7 +116,7 @@ describe('Store functions', () => {
         store.kindStore.add(Kind.create({ id: 5, name: 'Pipeline' }));
         store.kindStore.list[0].toggle();
         store.catalogStore.list[0].toggle();
-        store.categoryStore.items[3].toggle();
+        store.categoryStore.list[3].toggle();
 
         expect(store.list.length).toBe(2);
 
@@ -146,7 +146,7 @@ describe('Store functions', () => {
 
         store.clearAll();
 
-        expect(store.categoryStore.items).toEqual(
+        expect(store.categoryStore.list).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
               selected: false

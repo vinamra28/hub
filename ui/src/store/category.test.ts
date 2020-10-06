@@ -36,8 +36,8 @@ describe('Store functions', () => {
         expect(store.count).toBe(5);
         expect(store.isLoading).toBe(false);
 
-        expect(store.items[0].id).toBe(1);
-        expect(store.items[0].name).toBe('Build Tools');
+        expect(store.list[0].id).toBe(1);
+        expect(store.list[0].name).toBe('Build Tools');
         expect(getSnapshot(store)).toMatchSnapshot();
 
         done();
@@ -56,9 +56,9 @@ describe('Store functions', () => {
         expect(store.count).toBe(5);
         expect(store.isLoading).toBe(false);
 
-        store.items[0].toggle();
+        store.list[0].toggle();
 
-        expect(store.items[0].selected).toBe(true);
+        expect(store.list[0].selected).toBe(true);
 
         done();
       }
@@ -76,8 +76,8 @@ describe('Store functions', () => {
         expect(store.count).toBe(5);
         expect(store.isLoading).toBe(false);
 
-        store.items[0].toggle();
-        store.items[1].toggle();
+        store.list[0].toggle();
+        store.list[1].toggle();
 
         const tags = store.tags;
         expect(tags[0]).toBe('build-tool');
@@ -98,11 +98,11 @@ describe('Store functions', () => {
         expect(store.count).toBe(5);
         expect(store.isLoading).toBe(false);
 
-        store.items[0].toggle();
-        store.items[2].toggle();
+        store.list[0].toggle();
+        store.list[2].toggle();
         store.clear();
 
-        expect(store.items).toEqual(
+        expect(store.list).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
               selected: false
