@@ -24,7 +24,7 @@ export type ITag = Instance<typeof Tag>;
 
 export const CategoryStore = types
   .model('CategoryStore', {
-    items: types.array(Category),
+    list: types.array(Category),
     isLoading: true,
     err: ''
   })
@@ -35,11 +35,11 @@ export const CategoryStore = types
     },
 
     get count() {
-      return self.items.length;
+      return self.list.length;
     },
 
     get tags() {
-      return self.items
+      return self.list
         .filter((c) => c.selected)
         .reduce((acc: string[], c: ICategory) => [...acc, ...c.tags.map((t) => t.name)], []);
     }
@@ -47,7 +47,7 @@ export const CategoryStore = types
 
   .actions((self) => ({
     add(item: ICategory) {
-      self.items.push(item);
+      self.list.push(item);
     },
 
     setLoading(l: boolean) {
@@ -55,7 +55,7 @@ export const CategoryStore = types
     },
 
     clear() {
-      self.items.map((c: ICategory) => (c.selected = false));
+      self.list.map((c: ICategory) => (c.selected = false));
     }
   }))
 

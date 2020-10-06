@@ -4,7 +4,7 @@ exports[`Store functions can create a store 1`] = `
 Object {
   "err": "",
   "isLoading": false,
-  "items": Array [
+  "list": Array [
     Object {
       "id": 1,
       "name": "Build Tools",

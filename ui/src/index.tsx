@@ -6,10 +6,8 @@ import { CategoryStore } from './store/category';
 import { Hub } from './api';
 import { Provider } from 'mobx-react';
 import * as serviceWorker from './serviceWorker';
-import { Hub } from './api';
 import { KindStore } from './store/kind';
 import { CatalogStore } from './store/catalog';
-import { CategoryStore } from './store/category';
 import { ResourceStore } from './store/resources';
 
 const api = new Hub();
@@ -24,16 +22,13 @@ const store = ResourceStore.create(
   }
 );
 
-setInterval(function () {
-  console.log(store.list);
-}, 6000);
-
-const api = new Hub();
-export const Store = CategoryStore.create({}, { api });
+// setInterval(function () {
+//   console.log(store.list);
+// }, 6000);
 
 ReactDOM.render(
   <Provider>
-    <App store={Store} />,
+    <App store={store} />,
   </Provider>,
   document.getElementById('root')
 );
