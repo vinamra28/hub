@@ -28,7 +28,7 @@ interface FilterList {
  * To convert the first letter of the input word to Upper Case
  * @param str {String}
  */
-function toTitleCase(str: String) {
+function toTitleCase(str: string) {
   return str.replace(/\w\S*/g, function (txt) {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
@@ -49,7 +49,7 @@ const checkboxes = (items: Filterable[]) =>
 
 const Filter: React.FC<FilterList> = ({ store, header }) => {
   return useObserver(() => (
-    <div style={{ margin: '5em' }}>
+    <div style={{ margin: '1em', marginLeft: '5.0em' }}>
       <Flex>
         <FlexItem>
           <Text component={TextVariants.h1} style={{ fontWeight: 'bold' }}>

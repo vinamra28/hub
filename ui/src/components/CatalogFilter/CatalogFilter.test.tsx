@@ -15,14 +15,14 @@ const api = new FakeHub(TESTDATA_DIR);
 describe('CatalogFilter', () => {
   it('finds the filter component and matches the count', (done) => {
     const store = ResourceStore.create(
-        {},
-        {
-          api,
-          kindStore: KindStore.create({}),
-          catalogStore: CatalogStore.create({}),
-          categoryStore: CategoryStore.create({}, { api })
-        }
-      );
+      {},
+      {
+        api,
+        kindStore: KindStore.create({}),
+        catalogStore: CatalogStore.create({}),
+        categoryStore: CategoryStore.create({}, { api })
+      }
+    );
 
     when(
       () => !store.isLoading,
