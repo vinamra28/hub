@@ -8,7 +8,7 @@ exports[`App should render the component correctly and match the snapshot 1`] = 
     style={
       Object {
         "margin": "1em",
-        "marginLeft": "5.0em",
+        "marginLeft": "3em",
       }
     }
   >
