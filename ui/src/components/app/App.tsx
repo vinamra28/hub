@@ -10,7 +10,10 @@ import {
   GalleryItem,
   CardBody,
   Gallery,
-  PageSidebar
+  PageSidebar,
+  Chip,
+  ChipGroup,
+  Flex
 } from '@patternfly/react-core';
 import Footer from '../footer/Footer';
 import Header from '../header/Header';
@@ -21,6 +24,7 @@ import Navigation from '../Navigation/Navigation';
 const App: React.FC = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [perPgae, setPerPage] = useState(20);
+  const [chips, setChips] = useState(['Chip one', 'Chip two', 'Chip three', 'Chip 4']);
 
   const setPage = (event: React.MouseEvent | React.KeyboardEvent | MouseEvent, page: number) => {
     setPageNumber(page);
@@ -32,6 +36,19 @@ const App: React.FC = () => {
     setPerPage(perpage);
   };
 
+  const deleteItem = (id: string) => {
+    var copyOfChips = chips;
+    const index = copyOfChips.indexOf(id);
+    if (index !== -1) {
+      copyOfChips.splice(index, 1);
+      setChips(copyOfChips);
+    }
+  };
+
+  const deleteCategory = () => {
+    setChips([]);
+  };
+
   return (
     <React.Fragment>
       <Page
@@ -40,6 +57,29 @@ const App: React.FC = () => {
         isManagedSidebar
       >
         <Background />
+        <Flex style={{ marginTop: '3em', marginLeft: '2em' }}>
+          <ChipGroup numChips={2} categoryName="Kind" isClosable onClick={deleteCategory}>
+            {chips.map((currentChip) => (
+              <Chip key={currentChip} onClick={() => deleteItem(currentChip)}>
+                {currentChip}
+              </Chip>
+            ))}
+          </ChipGroup>
+          <ChipGroup numChips={2} categoryName="Support Tier" isClosable onClick={deleteCategory}>
+            {chips.map((currentChip) => (
+              <Chip key={currentChip} onClick={() => deleteItem(currentChip)}>
+                {currentChip}
+              </Chip>
+            ))}
+          </ChipGroup>
+          <ChipGroup numChips={2} categoryName="Category" isClosable onClick={deleteCategory}>
+            {chips.map((currentChip) => (
+              <Chip key={currentChip} onClick={() => deleteItem(currentChip)}>
+                {currentChip}
+              </Chip>
+            ))}
+          </ChipGroup>
+        </Flex>
         <PageSection>
           <Grid hasGutter>
             <GridItem span={11} rowSpan={2}>
