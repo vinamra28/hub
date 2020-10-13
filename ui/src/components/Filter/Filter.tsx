@@ -1,11 +1,11 @@
 import React from 'react';
-import { Checkbox } from '@patternfly/react-core';
+import { Checkbox, Grid, GridItem } from '@patternfly/react-core';
 import { useObserver } from 'mobx-react';
 import { Text, TextVariants } from '@patternfly/react-core';
-import { Flex, FlexItem } from '@patternfly/react-core';
 import { Button } from '@patternfly/react-core/dist/js/components';
 import TimesIcon from '@patternfly/react-icons/dist/js/icons/times-icon';
 import '@patternfly/react-core/dist/styles/base.css';
+import "./Filter.css";
 
 interface Filterable {
   id: number;
@@ -49,26 +49,22 @@ const checkboxes = (items: Filterable[]) =>
 
 const Filter: React.FC<FilterList> = ({ store, header }) => {
   return useObserver(() => (
-    <div style={{ margin: '1em', marginLeft: '5.0em' }}>
-      <Flex>
-        <FlexItem>
+    <div className="guruji">
+      <Grid sm={6} md={4} lg={3} xl2={1}>
+        <GridItem className="foo" span={1} rowSpan={2}>
           <Text component={TextVariants.h1} style={{ fontWeight: 'bold' }}>
             {header}
           </Text>
-        </FlexItem>
-        <FlexItem>
-          <Button variant="plain" aria-label="Clear" onClick={store.clear}>
+        </GridItem>
+        <GridItem rowSpan={2}>
+          <Button variant="plain" aria-label="Clear" onClick={store.clear} style={{ outline: 'none' }}>
             <TimesIcon />
           </Button>
-          <br />
-        </FlexItem>
-      </Flex>
-
-      <Flex>
-        <FlexItem>
-          <div>{checkboxes(store.list)}</div>
-        </FlexItem>
-      </Flex>
+        </GridItem>
+      </Grid>
+      <Grid>
+        <GridItem className="foobar">{checkboxes(store.list)}</GridItem>
+      </Grid>
     </div>
   ));
 };

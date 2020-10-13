@@ -7,6 +7,7 @@ import SortByFilter from '../SortByFilter/SortByFilter';
 import { IResourceStore } from '../../store/resources';
 import { Text, TextVariants, Grid, GridItem, Button } from '@patternfly/react-core';
 import TimesIcon from '@patternfly/react-icons/dist/js/icons/times-icon';
+import LeftPane from '../LeftPane/LeftPane';
 import '@patternfly/react-core/dist/styles/base.css';
 
 interface store {
@@ -14,55 +15,91 @@ interface store {
 }
 
 const App = observer(({ store }: store) => (
-  <div className="App">
-    <Grid
-      hasGutter
+  // <Grid rowSpan={12}>
+  //   <Grid hasGutter rowSpan={2}>
+  //     <GridItem span={1} rowSpan={5}>
+  //       <Text
+  //         style={{
+  //           fontWeight: 'bold',
+  //           fontSize: '1.1em',
+  //           color: '#484848',
+  //           verticalAlign: '-0.2em',
+  //           marginLeft: '3em',
+  //           backgroundColor: 'white'
+  //         }}
+  //       >
+  //         Sort
+  //       </Text>
+  //     </GridItem>
+  //     <GridItem span={1} rowSpan={4}>
+  //       <SortByFilter store={store} />
+  //     </GridItem>
+  //   </Grid>
+  //   <Grid hasGutter>
+  //     <GridItem span={2} rowSpan={3}>
+  // <Text
+  //   component={TextVariants.h1}
+  //   style={{
+  //     fontWeight: 'bold',
+  //     fontSize: '1.1em',
+  //     color: '#484848',
+  //     marginBottom: '-1.0em',
+  //     marginLeft: '3em'
+  //     // marginTop: '5em'
+  //   }}
+  // >
+  //   Refine By:
+  // </Text>
+  //     </GridItem>
+  //     <GridItem span={2} rowSpan={3}>
+  //       <Button
+  //         variant="plain"
+  //         aria-label="Clear"
+  //         onClick={store.clearAll}
+  //         style={
+  //           {
+  //             // paddingTop: '5em'
+  //           }
+  //         }
+  //       >
+  //         <TimesIcon />
+  //       </Button>
+  //     </GridItem>
+  //   </Grid>
+  //   <Grid hasGutter>
+  //     <GridItem span={3} rowSpan={3}>
+  //       <CatalogFilter store={store.catalogStore} />
+  //     </GridItem>
+  //   </Grid>
+  //   <Grid hasGutter>
+  //     <GridItem span={3} rowSpan={3}>
+  //       <KindFilter store={store.kindStore} />
+  //     </GridItem>
+  //   </Grid>
+  //   <Grid hasGutter>
+  //     <GridItem span={3} rowSpan={3}>
+  //       <CategoryFilter store={store.categoryStore} />
+  //     </GridItem>
+  //   </Grid>
+  // </Grid>
+  <div>
+    {/* <SortByFilter store={store} />
+    <Text
+      component={TextVariants.h1}
       style={{
-        marginTop: '5em'
+        fontWeight: 'bold',
+        fontSize: '1.1em',
+        color: '#484848',
+        marginLeft: '4.5em',
+        marginBottom: '-4.5em'
       }}
     >
-      <GridItem span={1} rowSpan={3}>
-        <b
-          style={{
-            fontSize: '1.1em',
-            verticalAlign: '-0.2em',
-            color: '#484848',
-            marginLeft: '3em',
-            backgroundColor: 'white'
-          }}
-        >
-          Sort
-        </b>
-      </GridItem>
-      <GridItem span={1}>
-        <SortByFilter store={store} />
-      </GridItem>
-      <Grid rows={2} rowSpan={2}>
-        <GridItem rowSpan={2}>
-          <Text
-            component={TextVariants.h1}
-            style={{
-              fontWeight: 'bold',
-              margin: '4.5em',
-              fontSize: '1.1em',
-              color: '#484848',
-              marginBottom: '-2.0em',
-              marginTop: '5em'
-            }}
-          >
-            Refine By:
-          </Text>
-        </GridItem>
-        <GridItem span={1} rowSpan={2}>
-          <Button variant="plain" aria-label="Clear" onClick={store.clearAll}>
-            <TimesIcon />
-          </Button>
-        </GridItem>
-      </Grid>
-      <CatalogFilter store={store.catalogStore} />
-      <KindFilter store={store.kindStore} />
-      <CategoryFilter store={store.categoryStore} />
-    </Grid>
+      Refine By:
+    </Text>
+    <CatalogFilter store={store.catalogStore} />
+    <KindFilter store={store.kindStore} />
+    <CategoryFilter store={store.categoryStore} /> */}
+    <LeftPane store={store} />
   </div>
 ));
 
