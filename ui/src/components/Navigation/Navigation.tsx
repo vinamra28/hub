@@ -1,5 +1,20 @@
 import React from 'react';
-import { Nav, NavList, NavExpandable, NavItem, Checkbox } from '@patternfly/react-core';
+import { Nav, NavList, NavExpandable, Checkbox, Button } from '@patternfly/react-core';
+
+const dummy = () => {
+  console.log('clear categories');
+  return;
+};  
+
+const x: React.ReactNode = (
+  <div>
+    Support Tiers
+    <Button variant="primary" onClick={dummy} style={{ marginLeft: '1em' }}>
+      {' '}
+      clear
+    </Button>
+  </div>
+);
 
 const Navigation: React.FC = () => {
   return (
@@ -7,52 +22,38 @@ const Navigation: React.FC = () => {
       <Nav>
         <NavList>
           <NavExpandable
-            title="string"
+            title={x as string}
             groupId="grp-2"
             // isActive={activeGroup === 'grp-2'}
             isExpanded
           >
             {Array.apply(0, Array(3)).map((x, i) => (
-              <NavItem
-                preventDefault
-                // onClick={}
-                groupId="grp-2"
-                itemId="own-item-handler"
-                // isActive={activeItem === 'own-item-handler'}
-                key={i}
-              >
+              <ul>
                 <Checkbox
                   label="Official"
                   aria-label="uncontrolled checkbox example"
-                  id="check-6"
+                  id={`${i}+'official'`}
                   style={{ color: 'white' }}
                 />
-              </NavItem>
+              </ul>
             ))}
           </NavExpandable>
 
           <NavExpandable
-            title="Categories"
+            title={x as string}
             groupId="grp-2"
             // isActive={activeGroup === 'grp-2'}
             isExpanded
           >
             {Array.apply(0, Array(5)).map((x, i) => (
-              <NavItem
-                preventDefault
-                // onClick={}
-                groupId="grp-2"
-                itemId="own-item-handler"
-                // isActive={activeItem === 'own-item-handler'}
-                key={i}
-              >
+              <ul>
                 <Checkbox
                   label="Build Tools"
                   aria-label="uncontrolled checkbox example"
-                  id="check-6"
+                  id={`${i}+'category'`}
                   style={{ color: 'white' }}
                 />
-              </NavItem>
+              </ul>
             ))}
           </NavExpandable>
         </NavList>
