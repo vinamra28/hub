@@ -1,21 +1,21 @@
-import { SearchInput } from '@patternfly/react-core';
+import { TextInput } from '@patternfly/react-core';
 import React, { useState } from 'react';
 
 const SearchBar: React.FC = () => {
   const [value, setValue] = useState('');
 
   const setInput = (event: any) => {
-    console.log('search-input', event);
     setValue(event);
   };
 
   return (
-    <SearchInput
-      placeholder="Search for Tekton resources..."
-      autoComplete="off"
-      type="search"
+    <TextInput
       value={value}
+      type="text"
       onChange={setInput}
+      aria-label="text input example"
+      placeholder="Search for resources..."
+      style={{ marginLeft: '-0.5em' }}
     />
   );
 };

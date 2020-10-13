@@ -25,7 +25,7 @@ const Header: React.FC = () => {
           md: 'visible'
         }}
       >
-        <PageHeaderToolsItem style={{ marginLeft: '-20em' }}>
+        <PageHeaderToolsItem>
           <SearchBar />
         </PageHeaderToolsItem>
 
@@ -49,6 +49,7 @@ const Header: React.FC = () => {
       logo={<Brand src={logo} alt="Tekton Hub Logo" />}
       headerTools={headerTools}
       logoProps={logoProps}
+      showNavToggle
     />
   );
 };

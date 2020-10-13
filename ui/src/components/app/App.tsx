@@ -9,12 +9,14 @@ import {
   Card,
   GalleryItem,
   CardBody,
-  Gallery
+  Gallery,
+  PageSidebar
 } from '@patternfly/react-core';
 import Footer from '../footer/Footer';
 import Header from '../header/Header';
 import Background from '../background/Background';
 import './app.css';
+import Navigation from '../Navigation/Navigation';
 
 const App: React.FC = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -32,13 +34,14 @@ const App: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Page header={<Header />}>
+      <Page
+        header={<Header />}
+        sidebar={<PageSidebar theme="dark" nav={<Navigation />} />}
+        isManagedSidebar
+      >
         <Background />
         <PageSection>
           <Grid hasGutter>
-            <GridItem span={1} rowSpan={1}>
-              Filter
-            </GridItem>
             <GridItem span={11} rowSpan={2}>
               {/* TODO: pagination should be  should be in Resource container componnet */}
               <Pagination
@@ -50,9 +53,16 @@ const App: React.FC = () => {
                 isCompact
               />
               <Gallery hasGutter>
-                {Array.apply(0, Array(100)).map((x, i) => (
+                {Array.apply(0, Array(20)).map((x, i) => (
                   <GalleryItem key={i}>
-                    <Card style={{ backgroundColor: 'white' }}>
+                    <Card
+                      style={{
+                        backgroundColor: 'white',
+                        height: '15em',
+                        width: '15em',
+                        marginLeft: '1.5em'
+                      }}
+                    >
                       <CardBody>This is a card</CardBody>
                     </Card>
                   </GalleryItem>
