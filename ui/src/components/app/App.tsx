@@ -42,7 +42,7 @@ const App: React.FC = () => {
         <Background />
         <PageSection>
           <Grid hasGutter>
-            <GridItem span={11} rowSpan={2}>
+            <GridItem span={12} rowSpan={2}>
               {/* TODO: pagination should be  should be in Resource container componnet */}
               <Pagination
                 itemCount={200}

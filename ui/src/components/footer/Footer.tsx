@@ -17,10 +17,9 @@ import './footer.css';
 const Footer: React.FC = () => {
   return (
     <React.Fragment>
-      <Card>
+      <Card style={{ alignContent: 'center' }}>
         <Grid>
-          <GridItem span={4} />
-          <GridItem span={4} rowSpan={12}>
+          <GridItem>
             <Flex>
               <FlexItem>
                 <a href="https://cd.foundation">
@@ -28,7 +27,8 @@ const Footer: React.FC = () => {
                 </a>
               </FlexItem>
             </Flex>
-            <Flex justifyContent={{ default: "justifyContentCenter" }}>
+
+            <Flex justifyContent={{ default: 'justifyContentCenter' }}>
               <TextContent>
                 <Text component={TextVariants.h1} style={{ color: 'white' }}>
                   Tekton is a{' '}
@@ -39,11 +39,13 @@ const Footer: React.FC = () => {
                 </Text>
               </TextContent>
             </Flex>
-            <Flex justifyContent={{ default: "justifyContentCenter" }}>
-              <FlexItem >
-                <img src={tekton} alt="Tekton" className="logo-size"/>
+
+            <Flex justifyContent={{ default: 'justifyContentCenter' }}>
+              <FlexItem>
+                <img src={tekton} alt="Tekton" className="logo-size" />
               </FlexItem>
             </Flex>
+
             <Flex>
               <CardFooter>
                 <Text style={{ color: 'white', textAlign: 'center' }}>

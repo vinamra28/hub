@@ -5,9 +5,11 @@ import {
   Brand,
   PageHeaderToolsGroup,
   PageHeaderToolsItem,
-  PageHeaderTools
+  PageHeaderTools,
+  Text,
+  TextContent,
+  TextVariants
 } from '@patternfly/react-core';
-import { GithubIcon, UserIcon } from '@patternfly/react-icons';
 import logo from '../../assets/logo/logo.png';
 import SearchBar from '../searchbar/SearchBar';
 
@@ -30,15 +32,9 @@ const Header: React.FC = () => {
         </PageHeaderToolsItem>
 
         <PageHeaderToolsItem>
-          <span style={{ marginRight: '1em', fontWeight: 'bold', fontSize: '1em' }}> Login</span>
-        </PageHeaderToolsItem>
-
-        <PageHeaderToolsItem>
-          <UserIcon size="md" style={{ marginRight: '1em' }} />
-        </PageHeaderToolsItem>
-
-        <PageHeaderToolsItem>
-          <GithubIcon size="md" />
+          <TextContent>
+            <Text component={TextVariants.h3}>Login</Text>
+          </TextContent>
         </PageHeaderToolsItem>
       </PageHeaderToolsGroup>
     </PageHeaderTools>

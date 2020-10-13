@@ -3,18 +3,16 @@
 }
 
 .pf-c-card {
-  --pf-c-card--BackgroundColor: var(--footer-card-background--Color)
+  --pf-c-card--BackgroundColor: var(--footer-card-background--Color);
 }
-
 
 .pf-l-flex a img {
-  max-width: 55%;
-  margin-left: 25%;
-
+  max-width: 15%;
+  margin-left: 40%;
+  align-items: center;
 }
 
- img.logo-size {
-  height: 6em ;
-  margin-bottom: -1em ;
-
+img.logo-size {
+  height: 6em;
+  margin-bottom: -1em;
 }
