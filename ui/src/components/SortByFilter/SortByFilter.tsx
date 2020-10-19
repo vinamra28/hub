@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { IResourceStore } from '../../store/resources';
 import { DropdownItem, Dropdown, DropdownToggle } from '@patternfly/react-core';
 import { useObserver } from 'mobx-react';
+import "./SortByFilter.css";
 
 interface store {
   store: IResourceStore;
@@ -51,9 +52,7 @@ const SortByFilter: React.FC<store> = (props: store) => {
           toggle={<DropdownToggle onToggle={ontoggle}>{sort}</DropdownToggle>}
           isOpen={isOpen}
           dropdownItems={dropdownItems}
-          style={{
-            backgroundColor: 'white'
-          }}
+          className="dropdown"
         />
       </div>
     );

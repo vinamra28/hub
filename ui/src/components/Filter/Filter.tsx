@@ -52,11 +52,11 @@ const Filter: React.FC<FilterList> = ({ store, header }) => {
     <div className="filter">
       <Grid sm={6} md={4} lg={3} xl2={1}>
         <GridItem className="foo" span={1} rowSpan={2}>
-          <Text component={TextVariants.h1} style={{ fontWeight: 'bold' }}>
+          <Text component={TextVariants.h1} style={{ fontWeight: 'bold', marginTop: '0.3em' }}>
             {header}
           </Text>
         </GridItem>
-        <GridItem rowSpan={2}>
+        <GridItem className="foo" rowSpan={2}>
           <Button
             variant="plain"
             aria-label="Clear"
