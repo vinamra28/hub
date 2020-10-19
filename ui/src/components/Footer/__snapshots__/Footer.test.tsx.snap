@@ -1,0 +1,134 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<article
+  className="pf-c-card"
+  data-ouia-component-id="OUIA-Generated-Card-1"
+  data-ouia-component-type="PF4/Card"
+  data-ouia-safe={true}
+  style={
+    Object {
+      "alignContent": "center",
+    }
+  }
+>
+  <div
+    className="pf-l-grid"
+    style={
+      Object {
+        "margin": "2em",
+      }
+    }
+  >
+    <div
+      className="pf-l-grid__item pf-m-5-col pf-m-4-row"
+    />
+    <div
+      className="pf-l-grid__item pf-m-2-col"
+    >
+      <a
+        href="https://cd.foundation"
+      >
+        <img
+          alt="tekton.dev"
+          src="https://tekton.dev/partner-logos/cdf.png"
+        />
+      </a>
+    </div>
+    <div
+      className="pf-l-grid__item pf-m-9-col"
+    >
+      <div
+        className="pf-c-content"
+      >
+        <h1
+          className=""
+          data-pf-content={true}
+          style={
+            Object {
+              "color": "white",
+              "textAlign": "right",
+            }
+          }
+        >
+          Tekton is a
+           
+          <a
+            className=""
+            data-pf-content={true}
+            href="https://cd.foundation"
+          >
+            Continuous Delivery Foundation
+          </a>
+           
+          project.
+        </h1>
+      </div>
+    </div>
+    <div
+      className="pf-l-grid__item pf-m-6-col"
+    >
+      <img
+        alt="Tekton"
+        className="logo-size"
+        src="tekton.png"
+        style={
+          Object {
+            "float": "right",
+            "height": "6em",
+          }
+        }
+      />
+    </div>
+    <div
+      className="pf-l-grid__item"
+    >
+      <div
+        className="pf-c-card__footer"
+      >
+        <p
+          className=""
+          data-pf-content={true}
+          style={
+            Object {
+              "color": "white",
+              "justifyContent": "center",
+            }
+          }
+        >
+          © 2020 The Linux Foundation®. All rights reserved. The Linux Foundation has registered trademarks and uses trademarks. For a list of trademarks of The Linux Foundation, please see our
+           
+          <a
+            className=""
+            data-pf-content={true}
+            href="https://www.linuxfoundation.org/trademark-usage/"
+          >
+            Trademark Usage page
+          </a>
+          . Linux is a registered trademark of Linus Torvalds.
+           
+          <a
+            className=""
+            data-pf-content={true}
+            href="https://www.linuxfoundation.org/privacy/"
+          >
+            Privacy Policy
+          </a>
+           
+          and
+           
+          <a
+            className=""
+            data-pf-content={true}
+            href="https://www.linuxfoundation.org/terms/"
+          >
+            Terms of Use
+          </a>
+           
+          .
+        </p>
+      </div>
+    </div>
+  </div>
+</article>
+`;

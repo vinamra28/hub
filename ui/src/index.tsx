@@ -2,17 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App/App';
-import { CategoryStore } from './store/category';
-import { Hub } from './api';
 import { Provider } from 'mobx-react';
 import * as serviceWorker from './serviceWorker';
 import { KindStore } from './store/kind';
 import { CatalogStore } from './store/catalog';
 import { ResourceStore } from './store/resources';
+import { CategoryStore } from './store/category';
+import { Hub } from './api/index';
 
 const api = new Hub();
 
-const store = ResourceStore.create(
+const Store = ResourceStore.create(
   {},
   {
     api,
@@ -23,15 +23,12 @@ const store = ResourceStore.create(
 );
 
 // setInterval(function () {
-//   console.log(store.list);
+//   console.log(Store.list);
 // }, 6000);
-
-const api = new Hub();
-export const Store = CategoryStore.create({}, { api });
 
 ReactDOM.render(
   <Provider>
-    <App store={store} />,
+    <App store={Store} />,
   </Provider>,
   document.getElementById('root')
 );

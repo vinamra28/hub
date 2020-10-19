@@ -11,21 +11,21 @@ import KindFilter from '../KindFilter/KindFilter';
 import CatalogFilter from '../CatalogFilter/CatalogFilter';
 import CategoryFilter from '../CategoryFilter/CategoryFilter';
 
-const TESTDATA_DIR = `src/store/testdata`;
-const api = new FakeHub(TESTDATA_DIR);
+// const TESTDATA_DIR = `src/store/testdata`;
+// const api = new FakeHub(TESTDATA_DIR);
 
-describe('App', () => {
-  it('should render the component correctly and match the snapshot', (done) => {
-    const store = CategoryStore.create({}, { api });
-    const app = renderer.create(
-      <div className="App">
-        <CategoryFilter store={store} />
-      </div>
-    );
-    expect(app.toJSON()).toMatchSnapshot();
+// describe('App', () => {
+//   it('should render the component correctly and match the snapshot', (done) => {
+//     const store = CategoryStore.create({}, { api });
+//     const app = renderer.create(
+//       <div className="App">
+//         <CategoryFilter store={store} />
+//       </div>
+//     );
+//     expect(app.toJSON()).toMatchSnapshot();
 
-    done();
-  });
+//     done();
+//   });
 
   it('should find the categoryFilter component and match the count', () => {
     const store = ResourceStore.create(

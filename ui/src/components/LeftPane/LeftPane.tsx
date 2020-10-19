@@ -1,6 +1,6 @@
 import React from 'react';
 import { useObserver } from 'mobx-react';
-import { GridItem, Grid, Button, SplitItem, Split } from '@patternfly/react-core';
+import { GridItem, Grid, SplitItem, Split } from '@patternfly/react-core';
 import SortByFilter from '../SortByFilter/SortByFilter';
 import { IResourceStore } from '../../store/resources';
 import CatalogFilter from '../CatalogFilter/CatalogFilter';
@@ -16,7 +16,7 @@ const LeftPane: React.FC<store> = (props: store) => {
   const store = props.store;
   return useObserver(() => (
     <div>
-      <Grid sm={6} md={4} lg={3} xl2={1} style={{ marginLeft: '3em', marginTop: '3em' }}>
+      <Grid sm={6} md={4} lg={3} xl2={1} style={{ marginLeft: '1em', marginTop: '1em' }}>
         <GridItem span={1}>
           <Split>
             <SplitItem>
@@ -42,18 +42,6 @@ const LeftPane: React.FC<store> = (props: store) => {
           <Text component={TextVariants.h1} style={{ fontWeight: 'bold' }}>
             Refined By
           </Text>
-        </GridItem>
-
-        <GridItem>
-          <Button
-            variant="link"
-            isInline
-            aria-label="Clear"
-            onClick={store.clearAll}
-            style={{ outline: 'none' }}
-          >
-            Clear All
-          </Button>
         </GridItem>
       </Grid>
 

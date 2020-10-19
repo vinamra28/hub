@@ -5,7 +5,7 @@ import { Text, TextVariants } from '@patternfly/react-core';
 import { Button } from '@patternfly/react-core/dist/js/components';
 import TimesIcon from '@patternfly/react-icons/dist/js/icons/times-icon';
 import '@patternfly/react-core/dist/styles/base.css';
-import "./Filter.css";
+import './Filter.css';
 
 interface Filterable {
   id: number;
@@ -49,7 +49,7 @@ const checkboxes = (items: Filterable[]) =>
 
 const Filter: React.FC<FilterList> = ({ store, header }) => {
   return useObserver(() => (
-    <div className="guruji">
+    <div className="filter">
       <Grid sm={6} md={4} lg={3} xl2={1}>
         <GridItem className="foo" span={1} rowSpan={2}>
           <Text component={TextVariants.h1} style={{ fontWeight: 'bold' }}>
@@ -57,7 +57,12 @@ const Filter: React.FC<FilterList> = ({ store, header }) => {
           </Text>
         </GridItem>
         <GridItem rowSpan={2}>
-          <Button variant="plain" aria-label="Clear" onClick={store.clear} style={{ outline: 'none' }}>
+          <Button
+            variant="plain"
+            aria-label="Clear"
+            onClick={store.clear}
+            style={{ outline: 'none' }}
+          >
             <TimesIcon />
           </Button>
         </GridItem>
