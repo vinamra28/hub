@@ -1,12 +1,7 @@
-.Filter {
-  margin-left: 1.5em;
-  margin-top: 1em;
-}
-
-.Text-Header {
-  width: 7em;
-}
-
 .pf-c-check__label {
   color: rgb(0, 0, 0);
+}
+.hub-header {
+  font-weight: bold;
+  padding-top: 0.3em;
 }

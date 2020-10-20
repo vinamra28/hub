@@ -6,6 +6,7 @@ import { IResourceStore } from '../../store/resources';
 import CatalogFilter from '../CatalogFilter/CatalogFilter';
 import KindFilter from '../KindFilter/KindFilter';
 import CategoryFilter from '../CategoryFilter/CategoryFilter';
+import './LeftPane.css';
 
 interface store {
   store: IResourceStore;
@@ -14,31 +15,28 @@ interface store {
 const LeftPane: React.FC<store> = (props: store) => {
   const store = props.store;
   return useObserver(() => (
-    <div>
-      <Grid
-        sm={6}
-        md={4}
-        lg={3}
-        xl2={1}
-        style={{ marginLeft: '1.5em', marginTop: '2em', marginRight: '-2em' }}
-      >
-        <GridItem span={3}>
-          <Text
-            component={TextVariants.h1}
-            style={{ fontWeight: 'bold', width: '3em', marginTop: '0.3em' }}
-          >
-            Sort
-          </Text>
-        </GridItem>
-        <GridItem span={9}>
-          <SortByFilter store={store} />
-        </GridItem>
-      </Grid>
+    <Grid hasGutter className="hub-leftpane">
+      <GridItem span={3}>
+        <Text component={TextVariants.h1} className="hub-leftpane-sort">
+          Sort
+        </Text>
+      </GridItem>
+      <GridItem span={9}>
+        <SortByFilter store={store} />
+      </GridItem>
 
-      <KindFilter store={store.kindStore} />
-      <CatalogFilter store={store.catalogStore} />
-      <CategoryFilter store={store.categoryStore} />
-    </div>
+      <GridItem>
+        <KindFilter store={store.kindStore} />
+      </GridItem>
+
+      <GridItem>
+        <CatalogFilter store={store.catalogStore} />
+      </GridItem>
+
+      <GridItem>
+        <CategoryFilter store={store.categoryStore} />
+      </GridItem>
+    </Grid>
   ));
 };
 
