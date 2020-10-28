@@ -33,7 +33,7 @@ const App = observer(({ store }: store) => {
             </GridItem>
 
             <GridItem span={10} rowSpan={1}>
-              <Route exact path="/" component={Resources}></Route>
+              <Route exact path="/" component={() => <Resources store={store} />}></Route>
             </GridItem>
           </Grid>
         </PageSection>
