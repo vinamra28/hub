@@ -113,7 +113,7 @@ import {
   Dropdown,
   DropdownToggle
 } from '@patternfly/react-core';
-import { BuildIcon, UserIcon, GithubIcon } from '@patternfly/react-icons';
+import { BuildIcon, UserIcon, GithubIcon, StarIcon } from '@patternfly/react-icons';
 import Rating from '../Rating/Rating';
 
 const summary: string =
@@ -166,7 +166,13 @@ const Details: React.FC = () => {
             </CardHeaderMain>
             <CardActions>
               <Grid>
-                <GridItem>
+                <GridItem span={1}>
+                  <StarIcon />
+                </GridItem>
+                <GridItem span={3}>
+                  <Text>4.5</Text>
+                </GridItem>
+                <GridItem span={10}>
                   <Rating />
                 </GridItem>
                 <GridItem>
@@ -200,8 +206,6 @@ const Details: React.FC = () => {
                 >
                   cli
                 </Badge>
-                {/* </GridItem>
-              <GridItem span={1}> */}
                 <Badge
                   style={{
                     paddingRight: '1em',
