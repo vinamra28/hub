@@ -111,7 +111,8 @@ import {
   CardFooter,
   Button,
   Dropdown,
-  DropdownToggle
+  DropdownToggle,
+  CardBody
 } from '@patternfly/react-core';
 import { BuildIcon, UserIcon, GithubIcon, StarIcon } from '@patternfly/react-icons';
 import Rating from '../Rating/Rating';
@@ -129,7 +130,7 @@ const Details: React.FC = () => {
       }}
     >
       <GridItem>
-        <Card>
+        <Card isCompact>
           <CardHeader style={{ marginTop: '1.5em' }}>
             <CardHeaderMain>
               <Grid style={{ marginTop: '2.5em' }}>
@@ -152,14 +153,9 @@ const Details: React.FC = () => {
                     <a href="github.com/tektoncd/catalog" target="_">
                       Open argocd in Github
                     </a>
-                    <Grid span={8}>
-                      <GridItem style={{ textAlign: 'justify' }}>
-                        {summary}
-                        <br />
-                        <br />
-                        {detail}
-                      </GridItem>
-                    </Grid>
+                    <GridItem span={8} style={{ textAlign: 'justify' }}>
+                      {summary}
+                    </GridItem>
                   </TextContent>
                 </GridItem>
               </Grid>
@@ -192,6 +188,14 @@ const Details: React.FC = () => {
               </Grid>
             </CardActions>
           </CardHeader>
+          <CardBody>
+            <Grid>
+              <GridItem span={1} />
+              <GridItem span={11} style={{ textAlign: 'justify', fontSize: '1em' }}>
+                {detail}
+              </GridItem>
+            </Grid>
+          </CardBody>
           <CardFooter>
             <Grid span={12}>
               <GridItem style={{ paddingLeft: '16.5em' }}>
