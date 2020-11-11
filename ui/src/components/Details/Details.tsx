@@ -131,101 +131,72 @@ const Details: React.FC = () => {
     >
       <GridItem>
         <Card isCompact>
-          <CardHeader style={{ marginTop: '1.5em' }}>
-            <CardHeaderMain>
-              <Grid style={{ marginTop: '2.5em' }}>
-                <GridItem span={1} />
-                <GridItem span={1}>
-                  <BuildIcon size="xl" color="#484848" />
-                </GridItem>
-                <GridItem span={1}>
-                  <Text component={TextVariants.h2} style={{ fontSize: '2em' }}>
-                    argocd
-                  </Text>
-                </GridItem>
-                <GridItem span={9} style={{ marginTop: '0.3em' }}>
-                  <UserIcon size="lg" />
-                </GridItem>
-                <GridItem span={2} />
-                <GridItem span={10}>
-                  <TextContent>
-                    <GithubIcon size="md" style={{ marginRight: '0.5em' }} />
-                    <a href="github.com/tektoncd/catalog" target="_">
-                      Open argocd in Github
-                    </a>
-                    <GridItem span={8} style={{ textAlign: 'justify' }}>
-                      {summary}
-                    </GridItem>
-                  </TextContent>
-                </GridItem>
-              </Grid>
-            </CardHeaderMain>
-            <CardActions>
-              <Grid>
+          <CardHeader>
+            <Grid>
+              <GridItem span={2}>
+                <BuildIcon size="xl" color="#484848" style={{ alignItems: 'right' }} />
+              </GridItem>
+              <GridItem span={1}>
+                <Text component={TextVariants.h2} style={{ fontSize: '2em' }}>
+                  argocd
+                </Text>
+              </GridItem>
+              <GridItem span={9}>
+                <UserIcon size="lg" />
+              </GridItem>
+              <GridItem span={2} />
+              <GridItem span={10}>
+                <TextContent>
+                  <GithubIcon size="md" />
+                  <a href="github.com/tektoncd/catalog" target="_">
+                    Open argocd in Github
+                  </a>
+                </TextContent>
+              </GridItem>
+              <GridItem span={2} />
+              <GridItem span={10}>
+                {summary}
+                <br />
+                <br />
+                {detail}
+              </GridItem>
+            </Grid>
+            <CardActions style={{ paddingTop: '2em' }}>
+              <Grid hasGutter>
                 <GridItem span={1}>
                   <StarIcon />
                 </GridItem>
                 <GridItem span={3}>
                   <Text>4.5</Text>
                 </GridItem>
-                <GridItem span={10}>
+                <GridItem span={12}>
                   <Rating />
                 </GridItem>
                 <GridItem>
-                  <Button variant="primary" className="button" style={{ width: '8.5em' }}>
+                  <Button variant="primary" className="button">
                     Install
                   </Button>
                 </GridItem>
                 <GridItem>
                   <Dropdown
-                    style={{ marginLeft: '-1em', marginTop: '2em' }}
-                    toggle={
-                      <DropdownToggle style={{ width: '8.5em' }}>0.1 (latest)</DropdownToggle>
-                    }
+                    toggle={<DropdownToggle>0.1 (latest)</DropdownToggle>}
                     dropdownItems={dropdownItems}
                   />
                 </GridItem>
               </Grid>
             </CardActions>
           </CardHeader>
-          <CardBody>
-            <Grid>
-              <GridItem span={1} />
-              <GridItem span={11} style={{ textAlign: 'justify', fontSize: '1em' }}>
-                {detail}
-              </GridItem>
-            </Grid>
-          </CardBody>
           <CardFooter>
             <Grid span={12}>
-              <GridItem style={{ paddingLeft: '16.5em' }}>
-                <Badge
-                  style={{
-                    paddingRight: '1em',
-                    marginBottom: '1em',
-                    marginRight: '1em'
-                  }}
-                  key="cli"
-                  className="badge"
-                >
+              <GridItem>
+                <Badge key="cli" className="badge">
                   cli
                 </Badge>
-                <Badge
-                  style={{
-                    paddingRight: '1em',
-                    marginBottom: '1em',
-                    marginRight: '1em'
-                  }}
-                  key="tekton"
-                  className="badge"
-                >
+                <Badge key="tekton" className="badge">
                   tekton
                 </Badge>
               </GridItem>
             </Grid>
-            {/* <div style={{ height: '2.5em', marginLeft: '16.5em' }}>
-              
-            </div> */}
           </CardFooter>
         </Card>
       </GridItem>

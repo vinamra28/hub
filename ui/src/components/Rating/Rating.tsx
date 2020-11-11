@@ -4,7 +4,7 @@ import './Rating.css';
 
 const Rating: React.FC = () => {
   return (
-    <div style={{ width: '20em', paddingBottom: '3.5em' }}>
+    <div style={{ width: '20em' }}>
       <form>
         <ul className="rate-area">
           <input className="rate-area" type="radio" id="5-star" name="rating" value="5" />
