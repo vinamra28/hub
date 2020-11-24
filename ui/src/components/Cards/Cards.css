@@ -14,18 +14,18 @@
 
 .hub-resource-name {
   font-weight: normal;
-  font-size: 1.3em;
+  font-size: 1.5em;
 }
 
 .hub-resource-version {
-  float: right;
+  padding-left: 0.7em;
   font-weight: normal;
-  margin-top: 0.3em;
+  vertical-align: -0.25em;
 }
 
 .hub-resource-updatedAt {
   margin-bottom: 0.5em;
-  margin-top: -0.3em;
+  margin-top: -0.1em;
 }
 
 .hub-tags {
@@ -40,7 +40,7 @@
 .hub-resource-body {
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: 1em;
+  margin-bottom: 1.3em;
   max-height: 10em;
 }
 
@@ -54,6 +54,6 @@
   bottom: 0;
   right: 0;
   width: 70%;
-  height: 1.6em;
+  height: 2em;
   background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
 }
