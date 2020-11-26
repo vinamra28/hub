@@ -24,4 +24,14 @@ export class Hub implements Api {
       return err.response;
     }
   }
+
+  async resourceVersion(resourceId: string) {
+    try {
+      return axios
+        .get(`${API_URL}/resource/${resourceId}/versions`)
+        .then((response) => response.data);
+    } catch (err) {
+      return err.response;
+    }
+  }
 }

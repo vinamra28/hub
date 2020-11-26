@@ -60,7 +60,7 @@ const Resources = () => {
               <GalleryItem key={r} style={{ margin: 'auto' }}>
                 <Link
                   to={{
-                    pathname: `${resources.filteredResources[r].catalog.name}/${resources.filteredResources[r].kind.name}/${resources.filteredResources[r].name}/${resources.filteredResources[r].latestVersion.version}`,
+                    pathname: `${resources.filteredResources[r].catalog.name}/${resources.filteredResources[r].kind.name}/${resources.filteredResources[r].name}/${resources.filteredResources[r].latestVersion.version}/${resources.filteredResources[r].id}`,
                     state: {
                       id: resources.filteredResources[r].id
                     }
