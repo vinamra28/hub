@@ -39,7 +39,7 @@ describe('Store functions', () => {
     when(
       () => !store.isLoading,
       () => {
-        expect(store.resources.size).toBe(6);
+        expect(store.resources.size).toBe(7);
         expect(getSnapshot(store.resources)).toMatchSnapshot();
         done();
       }
@@ -59,7 +59,7 @@ describe('Store functions', () => {
     when(
       () => !store.isLoading,
       () => {
-        expect(store.resources.size).toBe(6);
+        expect(store.resources.size).toBe(7);
         expect(getSnapshot(store.catalogs)).toMatchSnapshot();
         done();
       }
@@ -80,9 +80,81 @@ describe('Store functions', () => {
     when(
       () => !store.isLoading,
       () => {
-        expect(store.resources.size).toBe(6);
+        expect(store.resources.size).toBe(7);
         expect(getSnapshot(store.kinds)).toMatchSnapshot();
         done();
+      }
+    );
+  });
+
+  it('update versions list for buildah resource', (done) => {
+    const store = ResourceStore.create(
+      {},
+      {
+        api,
+        categories: CategoryStore.create({}, { api })
+      }
+    );
+
+    expect(store.isLoading).toBe(true);
+
+    when(
+      () => !store.isLoading,
+      () => {
+        expect(store.resources.size).toBe(7);
+        expect(getSnapshot(store.resources)).toMatchSnapshot();
+        store.versionInfo('13');
+        when(
+          () => !store.isLoading,
+          () => {
+            expect(store.resources.get('13')?.versions.length).toBe(2);
+            done();
+          }
+        );
+      }
+    );
+  });
+
+  it('fetch 0.1 version details for buildah resource', (done) => {
+    const store = ResourceStore.create(
+      {},
+      {
+        api,
+        categories: CategoryStore.create({}, { api })
+      }
+    );
+
+    expect(store.isLoading).toBe(true);
+
+    when(
+      () => !store.isLoading,
+      () => {
+        expect(store.resources.size).toBe(7);
+        expect(getSnapshot(store.resources)).toMatchSnapshot();
+        store.versionInfo('13');
+        when(
+          () => !store.isLoading,
+          () => {
+            expect(store.resources.get('13')?.versions.length).toBe(2);
+            store.versionUpdate('13');
+            when(
+              () => !store.isLoading,
+              () => {
+                store.versionUpdate('13');
+                when(
+                  () => !store.isLoading,
+                  () => {
+                    expect(store.resources.get('13')?.versions[1].minPipelinesVersion).toBe(
+                      '0.12.1'
+                    );
+                    expect(store.resources.get('13')?.versions[1].version).toBe('0.1');
+                    done();
+                  }
+                );
+              }
+            );
+          }
+        );
       }
     );
   });
@@ -100,7 +172,7 @@ describe('Store functions', () => {
     when(
       () => !store.isLoading,
       () => {
-        expect(store.resources.size).toBe(6);
+        expect(store.resources.size).toBe(7);
         const { items } = store.catalogs;
 
         const catalogs = items.get('2');
@@ -130,7 +202,7 @@ describe('Store functions', () => {
     when(
       () => !store.isLoading,
       () => {
-        expect(store.resources.size).toBe(6);
+        expect(store.resources.size).toBe(7);
 
         const kind = store.kinds.items.get('Pipeline');
         assert(kind);
@@ -158,7 +230,7 @@ describe('Store functions', () => {
     when(
       () => !store.isLoading,
       () => {
-        expect(store.resources.size).toBe(6);
+        expect(store.resources.size).toBe(7);
 
         const kinds = store.kinds.items.get('Task');
         assert(kinds);
@@ -207,7 +279,7 @@ describe('Store functions', () => {
         });
 
         store.add(item);
-        expect(store.resources.size).toBe(6);
+        expect(store.resources.size).toBe(7);
 
         expect(getSnapshot(store.resources)).toMatchSnapshot();
 
@@ -229,7 +301,7 @@ describe('Store functions', () => {
       () => !store.isLoading,
       () => {
         expect(store.isLoading).toBe(false);
-        expect(store.resources.size).toBe(6);
+        expect(store.resources.size).toBe(7);
 
         const versions = store.versions.get('1');
         assert(versions);

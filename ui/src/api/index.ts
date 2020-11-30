@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { API_URL } from '../config/constants';
 import { ICategory } from '../store/category';
-import { IResource } from '../store/resource';
+import { IResource, IVersion } from '../store/resource';
 
 export interface Api {
   categories(): Promise<ICategory>;
   resources(): Promise<IResource>;
+  resourceVersion(resourceId: string): Promise<IVersion>;
+  versionUpdate(versionId: string): Promise<IVersion>;
 }
 
 export class Hub implements Api {
@@ -29,6 +31,16 @@ export class Hub implements Api {
     try {
       return axios
         .get(`${API_URL}/resource/${resourceId}/versions`)
+        .then((response) => response.data);
+    } catch (err) {
+      return err.response;
+    }
+  }
+
+  async versionUpdate(versionId: string) {
+    try {
+      return axios
+        .get(`${API_URL}/resource/version/${versionId}`)
         .then((response) => response.data);
     } catch (err) {
       return err.response;

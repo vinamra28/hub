@@ -28,6 +28,9 @@ let dropdownItems: any = [];
 const Details: React.FC = (props: any) => {
   const { resources } = useMst();
 
+  resources.versionInfo(String(props.location.state.id));
+  resources.versionUpdate(String(props.location.state.id));
+
   const resource = resources.resources.get(String(props.location.state.id));
   new Hub().resourceVersion(String(props.location.state.id)).then((res) => {
     const data = res.data;

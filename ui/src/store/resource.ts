@@ -6,6 +6,7 @@ import { Tag, ICategoryStore, ITag } from './category';
 import { Api } from '../api';
 import { Catalog, CatalogStore } from './catalog';
 import { Kind, KindStore } from './kind';
+import { assert } from './utils';
 
 export const updatedAt = types.custom<string, Moment>({
   name: 'momentDate',
@@ -29,12 +30,12 @@ export const updatedAt = types.custom<string, Moment>({
 const Version = types.model('Version', {
   id: types.identifierNumber,
   version: types.string,
-  displayName: types.string,
-  description: types.string,
-  minPipelinesVersion: types.string,
+  displayName: types.optional(types.string, ''),
+  description: types.optional(types.string, ''),
+  minPipelinesVersion: types.optional(types.string, ''),
   rawURL: types.string,
   webURL: types.string,
-  updatedAt: updatedAt
+  updatedAt: types.optional(updatedAt, '')
 });
 
 export const Resource = types.model('Resource', {
@@ -98,6 +99,57 @@ export const ResourceStore = types
   }))
 
   .actions((self) => ({
+    versionInfo: flow(function* (resId: string) {
+      try {
+        self.setLoading(true);
+
+        const { api } = self;
+        const json = yield api.resourceVersion(resId);
+
+        const versions: IVersion[] = json.data.versions.map((v: IVersion) => ({
+          id: v.id,
+          version: v.version,
+          webURL: v.webURL,
+          rawURL: v.rawURL
+        }));
+
+        versions.forEach((v: IVersion) => {
+          if (!self.versions.has(String(v.id))) {
+            self.versions.put(v);
+            if (self.resources.has(resId)) {
+              self.resources.get(resId)?.versions.push(v.id);
+            }
+          }
+        });
+      } catch (err) {
+        self.err = err.toString();
+      }
+      self.setLoading(false);
+    }),
+    versionUpdate: flow(function* (versionId: string) {
+      try {
+        self.setLoading(true);
+
+        const { api } = self;
+        const json = yield api.versionUpdate(versionId);
+
+        const version: IVersion = {
+          id: json.data.id,
+          version: json.data.version,
+          displayName: json.data.displayName,
+          description: json.data.description,
+          minPipelinesVersion: json.data.minPipelinesVersion,
+          webURL: json.data.webURL,
+          rawURL: json.data.rawURL,
+          updatedAt: json.data.updatedAt
+        };
+
+        self.versions.put(version);
+      } catch (err) {
+        self.err = err.toString();
+      }
+      self.setLoading(false);
+    }),
     load: flow(function* () {
       try {
         self.setLoading(true);
