@@ -18,6 +18,7 @@ import { ITag } from '../../store/category';
 import { Link } from 'react-router-dom';
 import Icon from '../Icon';
 import { IconSize } from '@patternfly/react-icons';
+import { useObserver } from 'mobx-react';
 
 export const resourceName = (name: string, displayName: string) => {
   return displayName === '' ? <span>{name}</span> : <span>{displayName}</span>;
