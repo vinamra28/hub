@@ -242,8 +242,8 @@ export const ResourceStore = types
         const url = resource.displayVersion.rawURL;
         assert(url);
 
-        const json = yield api.readme(url);
-        resource.readme = json;
+        const markdown = yield api.readme(url);
+        resource.readme = markdown;
       } catch (err) {
         self.err = err.toString();
       }
@@ -263,6 +263,7 @@ export const ResourceStore = types
       if (version.id !== resource.displayVersion.id) {
         resource.displayVersion = version;
         self.versionUpdate(version.id);
+        self.readme(resourceName);
       }
     }
   }))

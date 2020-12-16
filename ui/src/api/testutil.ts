@@ -46,7 +46,9 @@ export class FakeHub implements Api {
   }
 
   async readme(rawURL: string) {
-    const data = `${this.dataDir}/aws-cli-Readme.md`;
+    const splitRawUrl = rawURL.split('/');
+    const taskName = splitRawUrl[splitRawUrl.length - 3];
+    const data = `${this.dataDir}/${taskName}-Readme.md`;
 
     const ret = () => fs.readFileSync(data).toString();
     return new Promise<string>((resolve) => {

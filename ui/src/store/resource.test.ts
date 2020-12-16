@@ -523,4 +523,35 @@ describe('Store functions', () => {
       }
     );
   });
+
+  fit('should display the readme for aws-cli', (done) => {
+    const store = ResourceStore.create(
+      {},
+      {
+        api,
+        categories: CategoryStore.create({}, { api })
+      }
+    );
+
+    expect(store.isLoading).toBe(true);
+
+    when(
+      () => !store.isLoading,
+      () => {
+        expect(store.resources.size).toBe(7);
+        expect(getSnapshot(store.resources)).toMatchSnapshot();
+        store.readme('aws-cli');
+        when(
+          () => !store.isLoading,
+          () => {
+            const resource = store.resources.get('aws-cli');
+            assert(resource);
+            //TODO: Please change the below line to check the expectation
+            console.log(resource.readme);
+            done();
+          }
+        );
+      }
+    );
+  });
 });
