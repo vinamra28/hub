@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { Spinner } from '@patternfly/react-core';
 import { useMst } from '../../store/root';
 import BasicDetails from '../BasicDetails';
+import Description from './Description';
 
 const Details: React.FC = () => {
   const { resources } = useMst();
@@ -11,6 +12,7 @@ const Details: React.FC = () => {
 
   const updateVersions = () => {
     resources.versionInfo(name);
+    resources.readme(name);
   };
 
   return useObserver(() =>
@@ -20,6 +22,7 @@ const Details: React.FC = () => {
       <React.Fragment>
         {updateVersions()}
         <BasicDetails />
+        <Description name={name} />
       </React.Fragment>
     )
   );

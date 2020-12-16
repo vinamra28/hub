@@ -44,4 +44,13 @@ export class FakeHub implements Api {
       setTimeout(() => resolve(ret()), 1000);
     });
   }
+
+  async readme(rawURL: string) {
+    const data = `${this.dataDir}/aws-cli-Readme.md`;
+
+    const ret = () => fs.readFileSync(data).toString();
+    return new Promise<string>((resolve) => {
+      setTimeout(() => resolve(ret()), 1000);
+    });
+  }
 }

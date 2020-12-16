@@ -49,7 +49,9 @@ export const Resource = types
     tags: types.array(types.reference(Tag)), // ["1", "2"]
     rating: types.number,
     versions: types.array(types.reference(Version)),
-    displayName: ''
+    displayName: '',
+    readme: '',
+    yaml: ''
   })
   .views((self) => ({
     get resourceName() {
@@ -224,6 +226,24 @@ export const ResourceStore = types
           r.versions.push(r.latestVersion);
           self.add(r);
         });
+      } catch (err) {
+        self.err = err.toString();
+      }
+      self.setLoading(false);
+    }),
+
+    readme: flow(function* (name: string) {
+      try {
+        self.setLoading(true);
+
+        const { api, resources } = self;
+        const resource = resources.get(name);
+        assert(resource);
+        const url = resource.displayVersion.rawURL;
+        assert(url);
+
+        const json = yield api.readme(url);
+        resource.readme = json;
       } catch (err) {
         self.err = err.toString();
       }
