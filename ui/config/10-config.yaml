@@ -6,4 +6,4 @@ metadata:
   namespace: tekton-hub
 data:
   API_URL: 'https://api.hub.tekton.dev'
-  GH_CLIENT_ID: ''
+  GH_CLIENT_ID: '$(clientid)'
