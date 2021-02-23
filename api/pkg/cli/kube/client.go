@@ -19,11 +19,13 @@ import (
 
 	"github.com/tektoncd/pipeline/pkg/client/clientset/versioned"
 	"k8s.io/client-go/dynamic"
+	k8s "k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
 )
 
 type Config struct {
+	Kube      k8s.Interface
 	Path      string
 	Context   string
 	Namespace string
@@ -32,6 +34,7 @@ type Config struct {
 type clients struct {
 	tekton         versioned.Interface
 	dynamic        dynamic.Interface
+	kube           k8s.Interface
 	kubeConfigPath string
 	kubeContext    string
 	namespace      string
@@ -40,6 +43,7 @@ type clients struct {
 type ClientSet interface {
 	Dynamic() dynamic.Interface
 	Tekton() versioned.Interface
+	KubeClient() (k8s.Interface, error)
 	Namespace() string
 }
 
@@ -54,6 +58,23 @@ func (p *clients) Tekton() versioned.Interface {
 }
 func (p *clients) Namespace() string {
 	return p.namespace
+}
+
+// Only returns kube client, not tekton client
+func (p *clients) KubeClient() (k8s.Interface, error) {
+
+	config, err := p.config()
+	if err != nil {
+		return nil, err
+	}
+
+	kube, err := kubeClient(config)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return kube, nil
 }
 
 func NewClientSet(p Config) (*clients, error) {
@@ -75,6 +96,11 @@ func NewClientSet(p Config) (*clients, error) {
 	}
 
 	client.dynamic, err = dynamicClient(config)
+	if err != nil {
+		return nil, err
+	}
+
+	client.kube, err = kubeClient(config)
 	if err != nil {
 		return nil, err
 	}
@@ -120,4 +146,14 @@ func tektonClient(config *rest.Config) (versioned.Interface, error) {
 		return nil, err
 	}
 	return cs, nil
+}
+
+// Set kube client based on config
+func kubeClient(config *rest.Config) (k8s.Interface, error) {
+	k8scs, err := k8s.NewForConfig(config)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create k8s client from config")
+	}
+
+	return k8scs, nil
 }

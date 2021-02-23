@@ -50,7 +50,7 @@ var resVersion = &res.ResourceVersionData{
 		},
 		Rating: 4.8,
 		Tags: []*res.Tag{
-			&res.Tag{
+			{
 				ID:   3,
 				Name: "cli",
 			},
@@ -68,7 +68,7 @@ func TestReinstall_ResourceNotExist(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:  cli,
 		kind: "task",
 		args: []string{"foo"},
@@ -96,7 +96,7 @@ func TestReinstall_VersionCatalogMissing(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:  cli,
 		kind: "task",
 		args: []string{"foo"},
@@ -125,7 +125,7 @@ func TestReinstall_VersionMissing(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:  cli,
 		kind: "task",
 		args: []string{"foo"},
@@ -171,7 +171,7 @@ func TestReinstall_DifferentVersionPassedByFlag(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:     cli,
 		kind:    "task",
 		args:    []string{"foo"},
@@ -223,7 +223,7 @@ func TestReinstall_DifferentCatalogPassedByFlag(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:     cli,
 		kind:    "task",
 		args:    []string{"foo"},
@@ -274,7 +274,7 @@ func TestReinstall(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:  cli,
 		kind: "task",
 		args: []string{"foo"},
