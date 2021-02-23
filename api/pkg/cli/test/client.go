@@ -18,11 +18,13 @@ import (
 	"github.com/tektoncd/hub/api/pkg/cli/kube"
 	"github.com/tektoncd/pipeline/pkg/client/clientset/versioned"
 	"k8s.io/client-go/dynamic"
+	k8s "k8s.io/client-go/kubernetes"
 )
 
 type fakeClients struct {
 	tekton    versioned.Interface
 	dynamic   dynamic.Interface
+	kube      k8s.Interface
 	namespace string
 }
 
@@ -39,10 +41,16 @@ func (p *fakeClients) Namespace() string {
 	return p.namespace
 }
 
-func FakeClientSet(tekton versioned.Interface, dynamic dynamic.Interface, namespace string) *fakeClients {
+// Only returns kube client, not tekton client
+func (p *fakeClients) KubeClient() (k8s.Interface, error) {
+	return p.kube, nil
+}
+
+func FakeClientSet(tekton versioned.Interface, dynamic dynamic.Interface, namespace string, kube k8s.Interface) *fakeClients {
 	return &fakeClients{
 		tekton:    tekton,
 		dynamic:   dynamic,
 		namespace: namespace,
+		kube:      kube,
 	}
 }

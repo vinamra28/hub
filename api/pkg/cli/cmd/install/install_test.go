@@ -51,7 +51,7 @@ var resVersion = &res.ResourceVersionData{
 		},
 		Rating: 4.8,
 		Tags: []*res.Tag{
-			&res.Tag{
+			{
 				ID:   3,
 				Name: "cli",
 			},
@@ -86,7 +86,7 @@ func TestInstall_NewResource(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:     cli,
 		kind:    "task",
 		args:    []string{"foo"},
@@ -96,7 +96,7 @@ func TestInstall_NewResource(t *testing.T) {
 
 	err := opts.run()
 	assert.NoError(t, err)
-	assert.Equal(t, "Task foo(0.3) installed in hub namespace\n", buf.String())
+	assert.Equal(t, "WARN: tekton pipelines version unknown, this resource is compatible with pipelines min version v0.12\nTask foo(0.3) installed in hub namespace\n", buf.String())
 	assert.Equal(t, gock.IsDone(), true)
 }
 
@@ -161,7 +161,7 @@ func TestInstall_ResourceAlreadyExistError(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:     cli,
 		kind:    "task",
 		args:    []string{"foo"},
@@ -210,7 +210,7 @@ func TestInstall_UpgradeError(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:     cli,
 		kind:    "task",
 		args:    []string{"foo"},
@@ -259,7 +259,7 @@ func TestInstall_SameVersionError(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:     cli,
 		kind:    "task",
 		args:    []string{"foo"},
@@ -308,7 +308,7 @@ func TestInstall_LowerVersionError(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:     cli,
 		kind:    "task",
 		args:    []string{"foo"},
@@ -319,5 +319,101 @@ func TestInstall_LowerVersionError(t *testing.T) {
 	err := opts.run()
 	assert.Error(t, err)
 	assert.EqualError(t, err, "Task foo(0.7) already exists in hub namespace. Use downgrade command to install v0.3")
+	assert.Equal(t, gock.IsDone(), true)
+}
+
+func TestInstall_RespectingPipelinesVersion(t *testing.T) {
+	cli := test.NewCLI()
+
+	defer gock.Off()
+
+	resVersion := &res.ResourceVersion{Data: resVersion}
+	res := res.NewViewedResourceVersion(resVersion, "default")
+	gock.New(test.API).
+		Get("/resource/tekton/task/foo/0.3").
+		Reply(200).
+		JSON(&res.Projected)
+
+	gock.New("http://raw.github.url").
+		Get("/foo/0.3/foo.yaml").
+		Reply(200).
+		File("./testdata/foo-v0.3.yaml")
+
+	buf := new(bytes.Buffer)
+	cli.SetStream(buf, buf)
+
+	version := "v1beta1"
+	dynamic := fake.NewSimpleDynamicClient(runtime.NewScheme())
+
+	cs, _ := test.SeedV1beta1TestData(t, pipelinev1beta1test.Data{})
+	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
+
+	opts := &options{
+		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
+		cli:     cli,
+		kind:    "task",
+		args:    []string{"foo"},
+		from:    "tekton",
+		version: "0.3",
+	}
+
+	kube, err := opts.cs.KubeClient()
+
+	err = test.CreateTektonPipelineController(kube, "v0.12.0")
+	if err != nil {
+		t.Errorf("%s", err.Error())
+	}
+
+	err = opts.run()
+	assert.NoError(t, err)
+	assert.Equal(t, "Task foo(0.3) installed in hub namespace\n", buf.String())
+	assert.Equal(t, gock.IsDone(), true)
+}
+
+func TestInstall_RespectingPipelinesVersionFailure(t *testing.T) {
+	cli := test.NewCLI()
+
+	defer gock.Off()
+
+	resVersion := &res.ResourceVersion{Data: resVersion}
+	res := res.NewViewedResourceVersion(resVersion, "default")
+	gock.New(test.API).
+		Get("/resource/tekton/task/foo/0.3").
+		Reply(200).
+		JSON(&res.Projected)
+
+	gock.New("http://raw.github.url").
+		Get("/foo/0.3/foo.yaml").
+		Reply(200).
+		File("./testdata/foo-v0.3.yaml")
+
+	buf := new(bytes.Buffer)
+	cli.SetStream(buf, buf)
+
+	version := "v1beta1"
+	dynamic := fake.NewSimpleDynamicClient(runtime.NewScheme())
+
+	cs, _ := test.SeedV1beta1TestData(t, pipelinev1beta1test.Data{})
+	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
+
+	opts := &options{
+		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
+		cli:     cli,
+		kind:    "task",
+		args:    []string{"foo"},
+		from:    "tekton",
+		version: "0.3",
+	}
+
+	kube, err := opts.cs.KubeClient()
+
+	err = test.CreateTektonPipelineController(kube, "v0.11.0")
+	if err != nil {
+		t.Errorf("%s", err.Error())
+	}
+
+	err = opts.run()
+	assert.Error(t, err)
+	assert.EqualError(t, err, "Task foo requires Tekton Pipelines min version v0.12 but found v0.11.0")
 	assert.Equal(t, gock.IsDone(), true)
 }

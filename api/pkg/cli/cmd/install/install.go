@@ -26,6 +26,7 @@ import (
 	"github.com/tektoncd/hub/api/pkg/cli/installer"
 	"github.com/tektoncd/hub/api/pkg/cli/kube"
 	"github.com/tektoncd/hub/api/pkg/cli/printer"
+	tkn "github.com/tektoncd/hub/api/pkg/cli/version"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 )
 
@@ -134,13 +135,35 @@ func (opts *options) run() error {
 		}
 	}
 
+	kube, err := opts.cs.KubeClient()
+	if err != nil {
+		return err
+	}
+
+	version, err := tkn.GetPipelineVersion(kube)
+	minVersion, err := opts.hubRes.MinPipelinesVersion()
+	if err != nil {
+		return err
+	}
+
+	out := opts.cli.Stream().Out
+
+	minVersion = "v" + minVersion
+
+	if version == "" {
+		printer.New(out).String("WARN: tekton pipelines version unknown, this resource is compatible with pipelines min version " + minVersion)
+	}
+	if version != "" && minVersion > version {
+		return fmt.Errorf("Task %s requires Tekton Pipelines min version %s but found %s",
+			opts.name(), minVersion, version)
+	}
+
 	installer := installer.New(opts.cs)
 	opts.resource, err = installer.Install(manifest, opts.from, opts.cs.Namespace())
 	if err != nil {
 		return opts.errors(err)
 	}
 
-	out := opts.cli.Stream().Out
 	return printer.New(out).String(msg(opts.resource))
 }
 

@@ -50,7 +50,7 @@ var resVersion = &res.ResourceVersionData{
 		},
 		Rating: 4.8,
 		Tags: []*res.Tag{
-			&res.Tag{
+			{
 				ID:   3,
 				Name: "cli",
 			},
@@ -68,7 +68,7 @@ func TestUpgrade_ResourceNotExist(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:  cli,
 		kind: "task",
 		args: []string{"foo"},
@@ -96,7 +96,7 @@ func TestUpgrade_VersionCatalogMissing(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:  cli,
 		kind: "task",
 		args: []string{"foo"},
@@ -125,7 +125,7 @@ func TestUpgrade_VersionMissing(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:  cli,
 		kind: "task",
 		args: []string{"foo"},
@@ -173,7 +173,7 @@ func TestUpgrade_ToSpecificVersion(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:     cli,
 		kind:    "task",
 		args:    []string{"foo"},
@@ -220,7 +220,7 @@ func TestUpgrade_SameVersionError(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:     cli,
 		kind:    "task",
 		args:    []string{"foo"},
@@ -267,7 +267,7 @@ func TestUpgrade_LowerVersionError(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:     cli,
 		kind:    "task",
 		args:    []string{"foo"},

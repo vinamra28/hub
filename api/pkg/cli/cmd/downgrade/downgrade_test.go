@@ -50,7 +50,7 @@ var resVersion = &res.ResourceVersionData{
 		},
 		Rating: 4.8,
 		Tags: []*res.Tag{
-			&res.Tag{
+			{
 				ID:   3,
 				Name: "cli",
 			},
@@ -81,7 +81,7 @@ func TestDowngrade_ResourceNotExist(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:  cli,
 		kind: "task",
 		args: []string{"foo"},
@@ -109,7 +109,7 @@ func TestDowngrade_VersionCatalogMissing(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:  cli,
 		kind: "task",
 		args: []string{"foo"},
@@ -138,7 +138,7 @@ func TestDowngrade_VersionMissing(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:  cli,
 		kind: "task",
 		args: []string{"foo"},
@@ -194,7 +194,7 @@ func TestDowngrade(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:   test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:  cli,
 		kind: "task",
 		args: []string{"foo"},
@@ -251,7 +251,7 @@ func TestDowngrade_ToSpecificVersion(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:     cli,
 		kind:    "task",
 		args:    []string{"foo"},
@@ -306,7 +306,7 @@ func TestDowngrade_SameVersionError(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:     cli,
 		kind:    "task",
 		args:    []string{"foo"},
@@ -356,7 +356,7 @@ func TestDowngrade_HigherVersionError(t *testing.T) {
 	cs.Pipeline.Resources = cb.APIResourceList(version, []string{"task"})
 
 	opts := &options{
-		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub"),
+		cs:      test.FakeClientSet(cs.Pipeline, dynamic, "hub", cs.Kube),
 		cli:     cli,
 		kind:    "task",
 		args:    []string{"foo"},
