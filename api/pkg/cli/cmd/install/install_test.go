@@ -96,7 +96,7 @@ func TestInstall_NewResource(t *testing.T) {
 
 	err := opts.run()
 	assert.NoError(t, err)
-	assert.Equal(t, "WARN: Pipelines version unknown\nTask foo(0.3) installed in hub namespace\n", buf.String())
+	assert.Equal(t, "WARN: tekton pipelines version unknown, this resource is compatible with pipelines min version v0.12\nTask foo(0.3) installed in hub namespace\n", buf.String())
 	assert.Equal(t, gock.IsDone(), true)
 }
 
@@ -359,7 +359,7 @@ func TestInstall_RespectingPipelinesVersion(t *testing.T) {
 
 	kube, err := opts.cs.KubeClient()
 
-	err = test.CreateTektonPipelineController(kube, "v0.11.0")
+	err = test.CreateTektonPipelineController(kube, "v0.13.0")
 	if err != nil {
 		t.Errorf("%s", err.Error())
 	}
