@@ -20,13 +20,14 @@ import (
 
 	"github.com/hashicorp/go-version"
 	"github.com/spf13/cobra"
+	"github.com/tektoncd/cli/pkg/cli"
+	tknVer "github.com/tektoncd/cli/pkg/version"
 	"github.com/tektoncd/hub/api/pkg/cli/app"
 	"github.com/tektoncd/hub/api/pkg/cli/flag"
 	"github.com/tektoncd/hub/api/pkg/cli/hub"
 	"github.com/tektoncd/hub/api/pkg/cli/installer"
 	"github.com/tektoncd/hub/api/pkg/cli/kube"
 	"github.com/tektoncd/hub/api/pkg/cli/printer"
-	tkn "github.com/tektoncd/hub/api/pkg/cli/version"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 )
 
@@ -141,7 +142,8 @@ func (opts *options) run() error {
 		return err
 	}
 
-	version, err := tkn.GetPipelineVersion(kube)
+	// Using the version package from tektoncd/cli
+	version, err := tknVer.GetPipelineVersion(&cli.Clients{Kube: kube}, "")
 	minVersion, err := opts.hubRes.MinPipelinesVersion()
 	if err != nil {
 		return err
