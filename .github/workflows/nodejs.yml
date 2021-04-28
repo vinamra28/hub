@@ -1,0 +1,42 @@
+name: Hub UI CI
+
+on:
+  pull_request:
+  push:
+
+defaults:
+  run:
+    working-directory: ui
+jobs:
+  unit-tests:
+    name: Run ESLint, unit tests and build tests
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x, 16.x]
+    env:
+      CI: true
+    steps:
+      - uses: actions/checkout@v2
+      - name: Using Node.js version ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test
+  build-image:
+    name: Build docker image
+    runs-on: ubuntu-20.04
+    needs: unit-tests
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build Image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: quay.io/vinamra2807/ui
+          tags: ghaction
+          dockerfiles: |
+            ./Dockerfile
+      - name: Check images created
+        run: buildah images
