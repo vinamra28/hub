@@ -56,6 +56,7 @@ catalogs:
     org: openshift
     type: official
     url: https://github.com/openshift/pipelines-catalog
+    revision: master
 
 scopes:
   - name: agent:create
