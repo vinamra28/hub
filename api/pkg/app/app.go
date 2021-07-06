@@ -60,7 +60,8 @@ type Config interface {
 	BaseConfig
 	OAuthConfig() *oauth2.Config
 	JWTConfig() *JWTConfig
-	GhConfig() *GHConfig
+	// GhConfig() *GHConfig
+	GitConfig() *GitConfig
 }
 
 // APIConfig defines struct on top of APIBase with GitHub Oauth,
@@ -69,7 +70,15 @@ type APIConfig struct {
 	*APIBase
 	conf      *oauth2.Config
 	jwtConfig *JWTConfig
-	ghConfig  *GHConfig
+	// ghConfig  *GHConfig //TODO: To be removed
+	gitConfig *GitConfig
+}
+
+type GitConfig struct {
+	Provider string
+	GhConfig *GHConfig
+	glConfig string // *GLConfig
+	bbConfig string // *BBConfig
 }
 
 // GHConfig struct defines the github configuration
@@ -220,8 +229,12 @@ func (ac *APIConfig) OAuthConfig() *oauth2.Config {
 // GheConfig returns Github Enterprise object which stores
 // whether GHE url is present or not and some other urls which
 // are generated on the basis of GHE url
-func (ac *APIConfig) GhConfig() *GHConfig {
-	return ac.ghConfig
+// func (ac *APIConfig) GhConfig() *GHConfig {
+// 	return ac.ghConfig
+// }
+
+func (ac *APIConfig) GitConfig() *GitConfig {
+	return ac.gitConfig
 }
 
 // JWTConfig returns JWTConfig Object
@@ -254,11 +267,15 @@ func FromEnvFile(file string) (*APIConfig, error) {
 
 	ac := &APIConfig{APIBase: ab}
 
-	if ac.ghConfig, err = initGh(); err != nil {
+	// if ac.ghConfig, err = initGh(""); err != nil {
+	// 	return nil, err
+	// }
+
+	if ac.gitConfig, err = initGit(); err != nil {
 		return nil, err
 	}
 
-	if ac.conf, err = initOAuthConfig(ac.ghConfig.Url); err != nil {
+	if ac.conf, err = initOAuthConfig(ac.gitConfig.GhConfig.Url); err != nil {
 		return nil, err
 	}
 	if ac.jwtConfig, err = jwtConfig(); err != nil {
@@ -392,13 +409,54 @@ func configFileURL() (string, error) {
 	return val, nil
 }
 
+func initGit() (*GitConfig, error) {
+	var url string
+	var err error
+	gitConfig := &GitConfig{}
+	if gitConfig.Provider = viper.GetString("GIT_PROVIDER"); gitConfig.Provider == "" {
+		gitConfig.Provider = "github"
+	}
+	gitConfig.Provider = strings.ToLower(gitConfig.Provider)
+	if url = viper.GetString("ENTERPRISE_URL"); url == "" {
+		switch gitConfig.Provider {
+		case "github":
+			url = "https://github.com"
+			break
+		case "bitbucket":
+			url = "https://bitbucket.org"
+			break
+		case "gitlab":
+			url = "https://gitlab.com"
+			break
+		}
+	}
+
+	if gitConfig.Provider == "github" {
+		if gitConfig.GhConfig, err = initGh(url); err != nil {
+			return nil, err
+		}
+	}
+	// if gitConfig.Provider == "gitlab" {
+	// 	_, err = initGitlab(url)
+	// }
+	// if gitConfig.Provider == "bitbucket" {
+	// 	_, err = initBitbucket(url)
+	// }
+
+	return gitConfig, nil
+}
+
+// func initBitbucket(url string)
+// func initGitlab(url string)
+
 // initGh looks for Github Enterprise url from the environment variables
 // and initialises the GHEConfig
-func initGh() (*GHConfig, error) {
+func initGh(ghUrl string) (*GHConfig, error) {
 	ghe := &GHConfig{}
-	if ghe.Url = viper.GetString("GHE_URL"); ghe.Url == "" {
-		ghe.Url = "https://github.com"
-	}
+	// if ghe.Url = viper.GetString("ENTERPRISE_URL"); ghe.Url == "" {
+	// 	ghe.Url = "https://github.com"
+	// }
+	ghe.Url = ghUrl
 	if !strings.HasPrefix(ghe.Url, "https://github.com") {
 		parsedUrl, err := url.Parse(ghe.Url)
 		if err != nil {
