@@ -15,7 +15,7 @@ require (
 	github.com/hinshun/vt10x v0.0.0-20180616224451-1954e6464174
 	github.com/ikawaha/goahttpcheck v1.3.1
 	github.com/joho/godotenv v1.3.0
-	github.com/ktrysmt/go-bitbucket v0.9.21 // indirect
+	github.com/ktrysmt/go-bitbucket v0.9.21
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/sergi/go-diff v1.2.0 // indirect
 	github.com/spf13/cobra v1.1.3
