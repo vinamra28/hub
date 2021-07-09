@@ -17,20 +17,21 @@ package migration
 import (
 	"github.com/go-gormigrate/gormigrate/v2"
 	"github.com/tektoncd/hub/api/gen/log"
+	"github.com/tektoncd/hub/api/pkg/db/model"
 	"gorm.io/gorm"
 )
 
 func renameGithubNameAndGithubLoginToNameAndGitUsername(log *log.Logger) *gormigrate.Migration {
 
 	return &gormigrate.Migration{
-		ID: "202107091032_rename_githubname_githublogin_to_name_and_git_username",
+		ID: "202107091127_rename_githubname__to_name_and_githublogin_to_git_username",
 		Migrate: func(db *gorm.DB) error {
-			if err := db.Exec("ALTER TABLE users RENAME COLUMN github_login TO git_username;").Error; err != nil {
+			if err := db.Migrator().RenameColumn(&model.User{}, "github_login", "git_username"); err != nil {
 				log.Error(err)
 				return err
 			}
-			if err := db.Exec("ALTER TABLE users RENAME COLUMN github_name TO name;").Error; err != nil {
-				log.Error(err)
+
+			if err := db.Migrator().RenameColumn(&model.User{}, "github_name", "name"); err != nil {
 				return err
 			}
 			return nil
