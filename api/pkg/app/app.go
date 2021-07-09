@@ -63,8 +63,8 @@ type Config interface {
 	GitConfig() *GitConfig
 }
 
-// APIConfig defines struct on top of APIBase with GitHub Oauth,
-// GHEConfig & JWT Configurations
+// APIConfig defines struct on top of APIBase with Git Oauth,
+// GitConfig & JWT Configurations
 type APIConfig struct {
 	*APIBase
 	conf      *oauth2.Config
@@ -72,6 +72,8 @@ type APIConfig struct {
 	gitConfig *GitConfig
 }
 
+// GitConfig defines the configuration of git provider which is being
+// used as oauth2 provider
 type GitConfig struct {
 	Provider     string
 	IsEnterprise bool
@@ -222,7 +224,7 @@ func (ac *APIConfig) OAuthConfig() *oauth2.Config {
 	return ac.conf
 }
 
-// Add comment here
+// GitConfig returns the GitConfig object
 func (ac *APIConfig) GitConfig() *GitConfig {
 	return ac.gitConfig
 }
@@ -396,6 +398,8 @@ func configFileURL() (string, error) {
 	return val, nil
 }
 
+// Read the git provider and enterprise url from env and
+// based on that set the GitConfig for oauth2 process
 func initGit() (*GitConfig, error) {
 	var err error
 	gitConfig := &GitConfig{}
@@ -406,6 +410,7 @@ func initGit() (*GitConfig, error) {
 
 	gitConfig.IsEnterprise = true
 
+	// If ENTERPRISE_URL env value is empty then fallback to default url
 	if gitConfig.Url = viper.GetString("ENTERPRISE_URL"); gitConfig.Url == "" {
 
 		gitConfig.IsEnterprise = false
@@ -423,6 +428,7 @@ func initGit() (*GitConfig, error) {
 		}
 	}
 
+	// Based on provider set the extra params needed to perform oauth2
 	switch gitConfig.Provider {
 	case "github":
 		if gitConfig.GhConfig, err = initGh(gitConfig.Url); err != nil {
@@ -453,6 +459,8 @@ func initGh(ghUrl string) (*GHConfig, error) {
 	return gh, nil
 }
 
+// Parse the Enterprise URL and return error if url
+// is not in format scheme://myenterpriseurl.com
 func parseEnterpriseUrl(gitUrl string) (*url.URL, error) {
 	parsedUrl, err := url.Parse(gitUrl)
 	if err != nil {

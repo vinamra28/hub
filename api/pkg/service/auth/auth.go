@@ -74,6 +74,7 @@ func (s *service) Authenticate(ctx context.Context, p *auth.AuthenticatePayload)
 	return req.authenticate(p.Code)
 }
 
+// Perform oauth request and get the user details from GitHub
 func (r *request) authGithub(code string) (model.User, error) {
 
 	// gets access_token for user using authorization_code
@@ -105,13 +106,14 @@ func (r *request) authGithub(code string) (model.User, error) {
 	}
 
 	return model.User{
-		GithubName:  ghUser.GetName(),
-		GithubLogin: strings.ToLower(ghUser.GetLogin()),
+		Name:        ghUser.GetName(),
+		GitUsername: strings.ToLower(ghUser.GetLogin()),
 		Type:        model.NormalUserType,
 		AvatarURL:   ghUser.GetAvatarURL(),
 	}, nil
 }
 
+// Perform oauth request and get the user details from Bitbucket
 func (r *request) authBitbucket(code string) (model.User, error) {
 	bitbucketUser, _ := bitbucket.NewOAuthWithCode(r.oauth.ClientID, r.oauth.ClientSecret, code)
 	myuser, err := bitbucketUser.User.Profile()
@@ -120,8 +122,8 @@ func (r *request) authBitbucket(code string) (model.User, error) {
 		return model.User{}, internalError
 	}
 	return model.User{
-		GithubName:  myuser.DisplayName,
-		GithubLogin: strings.ToLower(myuser.Username),
+		Name:        myuser.DisplayName,
+		GitUsername: strings.ToLower(myuser.Username),
 		Type:        model.NormalUserType,
 		AvatarURL:   myuser.Links["avatar"].(map[string]interface{})["href"].(string),
 	}, nil
@@ -161,7 +163,7 @@ func (r *request) addUser(user model.User) (*model.User, error) {
 
 	// Check if user exist
 	q := r.db.Model(&model.User{}).
-		Where("LOWER(github_login) = ?", user.GithubLogin)
+		Where("LOWER(git_username) = ?", user.GitUsername)
 	err := q.First(&dbUser).Error
 	if err != nil {
 		// If user doesn't exist, create a new record
@@ -181,8 +183,8 @@ func (r *request) addUser(user model.User) (*model.User, error) {
 	// User already exist, check if GitHub Name is empty
 	// If Name is empty, then user is inserted through config.yaml
 	// Update user with remaining details
-	if dbUser.GithubName == "" {
-		dbUser.GithubName = user.GithubName
+	if dbUser.Name == "" {
+		dbUser.Name = user.Name
 		dbUser.Type = model.NormalUserType
 	}
 	// For existing user, check if URL is not added
@@ -201,7 +203,7 @@ func (r *request) userScopes(user *model.User) ([]string, error) {
 
 	var userScopes []string = r.defaultScopes
 
-	q := r.db.Preload("Scopes").Where(&model.User{GithubLogin: user.GithubLogin})
+	q := r.db.Preload("Scopes").Where(&model.User{GitUsername: user.GitUsername})
 
 	dbUser := model.User{}
 	if err := q.Find(&dbUser).Error; err != nil {
